@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
 #include <QtWidgets/QFrame>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -40,7 +39,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_3;
-    QGraphicsView *SrcImgView;
+    QLabel *SrcImgView;
     QFrame *frame;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
@@ -82,11 +81,9 @@ public:
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        SrcImgView = new QGraphicsView(centralWidget);
+        SrcImgView = new QLabel(centralWidget);
         SrcImgView->setObjectName(QStringLiteral("SrcImgView"));
-        QBrush brush(QColor(0, 0, 0, 255));
-        brush.setStyle(Qt::NoBrush);
-        SrcImgView->setForegroundBrush(brush);
+        SrcImgView->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
 
         horizontalLayout_3->addWidget(SrcImgView);
 
@@ -207,6 +204,7 @@ public:
         actionOpen->setText(QApplication::translate("imageSimilarityClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
         action2->setText(QApplication::translate("imageSimilarityClass", "2", Q_NULLPTR));
         actionSimilar->setText(QApplication::translate("imageSimilarityClass", "\347\233\270\344\274\274\345\233\276\347\211\207", Q_NULLPTR));
+        SrcImgView->setText(QString());
         label->setText(QString());
         label_2->setText(QString());
         label_3->setText(QString());

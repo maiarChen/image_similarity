@@ -1,8 +1,7 @@
 #include "pySimilarityCore.h"
 
-pySimilarityCore::pySimilarityCore(string Path1, string Path2) {
+pySimilarityCore::pySimilarityCore(string Path1) {
 	image1Path = Path1;
-	image2Path = Path2;
 	Py_Initialize();    // 初始化
 
 	// 将Python工作路径切换到待调用模块所在目录，一定要保证路径名的正确性
@@ -22,6 +21,11 @@ pySimilarityCore::pySimilarityCore(string Path1, string Path2) {
 }
 pySimilarityCore::~pySimilarityCore() {
 	Py_Finalize();
+	delete this;
+}
+
+void pySimilarityCore::getPath2(string Path2) {
+	image2Path = Path2;
 }
 
 float pySimilarityCore::doSimilarity_classify_gray_hist() {

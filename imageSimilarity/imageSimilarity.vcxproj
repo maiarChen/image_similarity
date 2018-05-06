@@ -116,6 +116,8 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Image_processing\mainwindow\Mat2QImage.cpp" />
+    <ClCompile Include="imageInfo.cpp" />
     <ClCompile Include="imageSimilarity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pySimilarityCore.cpp" />
@@ -130,6 +132,8 @@
     <QtRcc Include="imageSimilarity.qrc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Image_processing\mainwindow\Mat2QImage.h" />
+    <ClInclude Include="imageInfo.h" />
     <ClInclude Include="pySimilarityCore.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

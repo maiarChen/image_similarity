@@ -20,15 +20,12 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
         <item>
-         <widget class="QGraphicsView" name="SrcImgView">
-          <property name="foregroundBrush">
-           <brush brushstyle="NoBrush">
-            <color alpha="255">
-             <red>0</red>
-             <green>0</green>
-             <blue>0</blue>
-            </color>
-           </brush>
+         <widget class="QLabel" name="SrcImgView">
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(255, 255, 255)</string>
+          </property>
+          <property name="text">
+           <string/>
           </property>
          </widget>
         </item>

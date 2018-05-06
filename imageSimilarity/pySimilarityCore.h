@@ -8,9 +8,10 @@ using namespace std;
 class pySimilarityCore {
 	
 public:
-	pySimilarityCore(string, string);
+	pySimilarityCore(string);
 	~pySimilarityCore();
 
+	void getPath2(string);
 	float doSimilarity_classify_gray_hist();
 	float doSimilarity_classify_hist_with_split();
 	int doSimilarity_classify_aHash();
