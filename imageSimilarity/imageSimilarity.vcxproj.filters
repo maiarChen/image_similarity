@@ -36,6 +36,9 @@
     <ClCompile Include="imageSimilarity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pySimilarityCore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="imageSimilarity.h">
@@ -51,5 +54,10 @@
     <QtRcc Include="imageSimilarity.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pySimilarityCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

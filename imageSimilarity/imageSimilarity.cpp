@@ -1,6 +1,7 @@
 #include "imageSimilarity.h"
 #include<QDebug>
-
+#include "pySimilarityCore.h"
+#include<iostream>
 imageSimilarity::imageSimilarity(QWidget *parent)
 	: QMainWindow(parent)
 {
@@ -29,5 +30,11 @@ void imageSimilarity::open() {
 	}
 }
 void imageSimilarity::similar() {
-
+	string p1 = "38.jpg";
+	string p2 = "lena.jpg";
+	pySimilarityCore *a=new pySimilarityCore(p1,p2);
+	qDebug() << a->doSimilarity_classify_gray_hist();
+	qDebug() << a->doSimilarity_classify_hist_with_split();
+	qDebug() << a->doSimilarity_classify_aHash();
+	qDebug() << a->doSimilarity_classify_pHash();
 }
