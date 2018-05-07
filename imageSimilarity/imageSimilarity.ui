@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>934</width>
-    <height>642</height>
+    <width>1074</width>
+    <height>735</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="4,4,1">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
+       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1">
         <item>
          <widget class="QLabel" name="SrcImgView">
           <property name="styleSheet">
@@ -35,14 +35,60 @@
            <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+           <enum>QFrame::Plain</enum>
           </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3" stretch="1,5">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QComboBox" name="comboBox">
+               <item>
+                <property name="text">
+                 <string>灰度直方图的相似度</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>分离三通道直方图的相似度</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>平均哈希</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>感知哈希</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QTextEdit" name="textEdit"/>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1,1">
+       <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,1,1,1">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
@@ -78,16 +124,6 @@
         </item>
         <item>
          <widget class="QLabel" name="label_4">
-          <property name="styleSheet">
-           <string notr="true">background-color:rgb(255, 255, 255)</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_5">
           <property name="styleSheet">
            <string notr="true">background-color:rgb(255, 255, 255)</string>
           </property>
@@ -151,8 +187,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>934</width>
-     <height>23</height>
+     <width>1074</width>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -160,7 +196,6 @@
      <string>文件</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="action2"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -192,7 +227,7 @@
   </action>
   <action name="actionSimilar">
    <property name="text">
-    <string>相似图片</string>
+    <string>图片库处理</string>
    </property>
   </action>
  </widget>

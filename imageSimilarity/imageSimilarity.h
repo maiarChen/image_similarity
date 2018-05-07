@@ -22,20 +22,29 @@ class imageSimilarity : public QMainWindow
 public:
 	imageSimilarity(QWidget *parent = Q_NULLPTR);
 	~imageSimilarity();
+
+	static bool sortMethod_gray_hist(imageInfo, imageInfo);
+	static bool sortMethod_hist_split(imageInfo, imageInfo);
 	static bool sortMethod_pHash(imageInfo, imageInfo);
+	static bool sortMethod_aHash(imageInfo, imageInfo);
+	
 private slots:
 	void open();
 	void similar();
+	void showLabel();
+	void chooseSortMethod(int);
 signals:
 
 private:
 	Ui::imageSimilarityClass *ui;
-	pySimilarityCore *a;
+	
 	QString filename;
 	/*Mat srcImage;*/	
 	QImage srcQimage;
+	
 	/*vector<imageInfo*> imagelibs;*/
 	vector<imageInfo> imagelibs;
+
 
 	string p1;
 	string p2;

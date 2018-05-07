@@ -13,6 +13,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QFrame>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
@@ -23,6 +24,7 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTextEdit>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -41,12 +43,16 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *SrcImgView;
     QFrame *frame;
+    QVBoxLayout *verticalLayout_3;
+    QHBoxLayout *horizontalLayout_4;
+    QComboBox *comboBox;
+    QSpacerItem *horizontalSpacer_3;
+    QTextEdit *textEdit;
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QLabel *label_2;
     QLabel *label_3;
     QLabel *label_4;
-    QLabel *label_5;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
     QPushButton *pushButton_2;
@@ -62,7 +68,7 @@ public:
     {
         if (imageSimilarityClass->objectName().isEmpty())
             imageSimilarityClass->setObjectName(QStringLiteral("imageSimilarityClass"));
-        imageSimilarityClass->resize(934, 642);
+        imageSimilarityClass->resize(1074, 735);
         actionOpen = new QAction(imageSimilarityClass);
         actionOpen->setObjectName(QStringLiteral("actionOpen"));
         action2 = new QAction(imageSimilarityClass);
@@ -90,12 +96,38 @@ public:
         frame = new QFrame(centralWidget);
         frame->setObjectName(QStringLiteral("frame"));
         frame->setFrameShape(QFrame::StyledPanel);
-        frame->setFrameShadow(QFrame::Raised);
+        frame->setFrameShadow(QFrame::Plain);
+        verticalLayout_3 = new QVBoxLayout(frame);
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        comboBox = new QComboBox(frame);
+        comboBox->setObjectName(QStringLiteral("comboBox"));
+
+        horizontalLayout_4->addWidget(comboBox);
+
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout_4->addItem(horizontalSpacer_3);
+
+
+        verticalLayout_3->addLayout(horizontalLayout_4);
+
+        textEdit = new QTextEdit(frame);
+        textEdit->setObjectName(QStringLiteral("textEdit"));
+
+        verticalLayout_3->addWidget(textEdit);
+
+        verticalLayout_3->setStretch(0, 1);
+        verticalLayout_3->setStretch(1, 5);
 
         horizontalLayout_3->addWidget(frame);
 
         horizontalLayout_3->setStretch(0, 1);
-        horizontalLayout_3->setStretch(1, 2);
+        horizontalLayout_3->setStretch(1, 1);
 
         verticalLayout->addLayout(horizontalLayout_3);
 
@@ -127,17 +159,10 @@ public:
 
         horizontalLayout->addWidget(label_4);
 
-        label_5 = new QLabel(centralWidget);
-        label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setStyleSheet(QStringLiteral("background-color:rgb(255, 255, 255)"));
-
-        horizontalLayout->addWidget(label_5);
-
         horizontalLayout->setStretch(0, 1);
         horizontalLayout->setStretch(1, 1);
         horizontalLayout->setStretch(2, 1);
         horizontalLayout->setStretch(3, 1);
-        horizontalLayout->setStretch(4, 1);
 
         verticalLayout->addLayout(horizontalLayout);
 
@@ -174,7 +199,7 @@ public:
         imageSimilarityClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(imageSimilarityClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 934, 23));
+        menuBar->setGeometry(QRect(0, 0, 1074, 26));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         menu_2 = new QMenu(menuBar);
@@ -190,7 +215,6 @@ public:
         menuBar->addAction(menu->menuAction());
         menuBar->addAction(menu_2->menuAction());
         menu->addAction(actionOpen);
-        menu->addAction(action2);
         menu_2->addAction(actionSimilar);
 
         retranslateUi(imageSimilarityClass);
@@ -203,13 +227,19 @@ public:
         imageSimilarityClass->setWindowTitle(QApplication::translate("imageSimilarityClass", "imageSimilarity", Q_NULLPTR));
         actionOpen->setText(QApplication::translate("imageSimilarityClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
         action2->setText(QApplication::translate("imageSimilarityClass", "2", Q_NULLPTR));
-        actionSimilar->setText(QApplication::translate("imageSimilarityClass", "\347\233\270\344\274\274\345\233\276\347\211\207", Q_NULLPTR));
+        actionSimilar->setText(QApplication::translate("imageSimilarityClass", "\345\233\276\347\211\207\345\272\223\345\244\204\347\220\206", Q_NULLPTR));
         SrcImgView->setText(QString());
+        comboBox->clear();
+        comboBox->insertItems(0, QStringList()
+         << QApplication::translate("imageSimilarityClass", "\347\201\260\345\272\246\347\233\264\346\226\271\345\233\276\347\232\204\347\233\270\344\274\274\345\272\246", Q_NULLPTR)
+         << QApplication::translate("imageSimilarityClass", "\345\210\206\347\246\273\344\270\211\351\200\232\351\201\223\347\233\264\346\226\271\345\233\276\347\232\204\347\233\270\344\274\274\345\272\246", Q_NULLPTR)
+         << QApplication::translate("imageSimilarityClass", "\345\271\263\345\235\207\345\223\210\345\270\214", Q_NULLPTR)
+         << QApplication::translate("imageSimilarityClass", "\346\204\237\347\237\245\345\223\210\345\270\214", Q_NULLPTR)
+        );
         label->setText(QString());
         label_2->setText(QString());
         label_3->setText(QString());
         label_4->setText(QString());
-        label_5->setText(QString());
         pushButton_2->setText(QApplication::translate("imageSimilarityClass", "\344\270\212\344\270\200\351\241\265", Q_NULLPTR));
         pushButton->setText(QApplication::translate("imageSimilarityClass", "\344\270\213\344\270\200\351\241\265", Q_NULLPTR));
         menu->setTitle(QApplication::translate("imageSimilarityClass", "\346\226\207\344\273\266", Q_NULLPTR));
