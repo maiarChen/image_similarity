@@ -35,6 +35,7 @@ private slots:
 	void chooseSortMethod(int);
 	void showLastPage();
 	void showNextPage();
+	void chooseImageLib();
 signals:
 
 private:
@@ -45,6 +46,7 @@ private:
 	int imageCount;//图片库总量
 	int pageNum;//页数
 	int nowPage;//当前页
+	QString path;
 
 	string p1;
 	string p2;

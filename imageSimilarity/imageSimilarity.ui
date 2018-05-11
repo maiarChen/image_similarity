@@ -188,7 +188,7 @@
      <x>0</x>
      <y>0</y>
      <width>1074</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -196,6 +196,7 @@
      <string>文件</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="actionImportLib"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -217,7 +218,7 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionOpen">
    <property name="text">
-    <string>打开文件</string>
+    <string>打开待比较图片</string>
    </property>
   </action>
   <action name="action2">
@@ -228,6 +229,11 @@
   <action name="actionSimilar">
    <property name="text">
     <string>图片库处理</string>
+   </property>
+  </action>
+  <action name="actionImportLib">
+   <property name="text">
+    <string>导入图像库</string>
    </property>
   </action>
  </widget>

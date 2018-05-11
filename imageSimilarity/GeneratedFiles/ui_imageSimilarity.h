@@ -37,6 +37,7 @@ public:
     QAction *actionOpen;
     QAction *action2;
     QAction *actionSimilar;
+    QAction *actionImportLib;
     QWidget *centralWidget;
     QVBoxLayout *verticalLayout_2;
     QVBoxLayout *verticalLayout;
@@ -75,6 +76,8 @@ public:
         action2->setObjectName(QStringLiteral("action2"));
         actionSimilar = new QAction(imageSimilarityClass);
         actionSimilar->setObjectName(QStringLiteral("actionSimilar"));
+        actionImportLib = new QAction(imageSimilarityClass);
+        actionImportLib->setObjectName(QStringLiteral("actionImportLib"));
         centralWidget = new QWidget(imageSimilarityClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         verticalLayout_2 = new QVBoxLayout(centralWidget);
@@ -199,7 +202,7 @@ public:
         imageSimilarityClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(imageSimilarityClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1074, 26));
+        menuBar->setGeometry(QRect(0, 0, 1074, 23));
         menu = new QMenu(menuBar);
         menu->setObjectName(QStringLiteral("menu"));
         menu_2 = new QMenu(menuBar);
@@ -215,6 +218,7 @@ public:
         menuBar->addAction(menu->menuAction());
         menuBar->addAction(menu_2->menuAction());
         menu->addAction(actionOpen);
+        menu->addAction(actionImportLib);
         menu_2->addAction(actionSimilar);
 
         retranslateUi(imageSimilarityClass);
@@ -225,9 +229,10 @@ public:
     void retranslateUi(QMainWindow *imageSimilarityClass)
     {
         imageSimilarityClass->setWindowTitle(QApplication::translate("imageSimilarityClass", "imageSimilarity", Q_NULLPTR));
-        actionOpen->setText(QApplication::translate("imageSimilarityClass", "\346\211\223\345\274\200\346\226\207\344\273\266", Q_NULLPTR));
+        actionOpen->setText(QApplication::translate("imageSimilarityClass", "\346\211\223\345\274\200\345\276\205\346\257\224\350\276\203\345\233\276\347\211\207", Q_NULLPTR));
         action2->setText(QApplication::translate("imageSimilarityClass", "2", Q_NULLPTR));
         actionSimilar->setText(QApplication::translate("imageSimilarityClass", "\345\233\276\347\211\207\345\272\223\345\244\204\347\220\206", Q_NULLPTR));
+        actionImportLib->setText(QApplication::translate("imageSimilarityClass", "\345\257\274\345\205\245\345\233\276\345\203\217\345\272\223", Q_NULLPTR));
         SrcImgView->setText(QString());
         comboBox->clear();
         comboBox->insertItems(0, QStringList()

@@ -12,23 +12,13 @@ imageSimilarity::imageSimilarity(QWidget *parent)
 
 	QObject::connect(ui->actionOpen, &QAction::triggered, this, &imageSimilarity::open);
 	QObject::connect(ui->actionSimilar, &QAction::triggered, this, &imageSimilarity::similar);
+	QObject::connect(ui->actionImportLib, &QAction::triggered, this, &imageSimilarity::chooseImageLib);
+
 	QObject::connect(ui->lastPageBtn, &QPushButton::clicked , this, &imageSimilarity::showLastPage);
 	QObject::connect(ui->nextPageBtn, &QPushButton::clicked, this, &imageSimilarity::showNextPage);
 	QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseSortMethod(int)));
 
-
-
-	//QString path = QFileDialog::getExistingDirectory(NULL, tr("选择图像库文件夹"), "E:\\", QFileDialog::ShowDirsOnly);
-	//qDebug() << path;
-	QDir *dir = new QDir("E:/Item/C++/imageSimilarity/imageSimilarity/imageLib");
-	QStringList filter;
-	filter<<"*.jpg";
-	dir->setNameFilters(filter);
-	QList<QFileInfo> *fileInfo = new QList<QFileInfo>(dir->entryInfoList(filter));
-	imageCount = fileInfo->count();
-	pageNum = ceil(imageCount/4.0);//总页数,向上取整
-	qDebug() << fileInfo->count();
-	qDebug() << pageNum;
+	ui->actionSimilar->setEnabled(false);
 	nowPage = 0;//当前页为0
 }
 imageSimilarity::~imageSimilarity()
@@ -46,6 +36,8 @@ void imageSimilarity::open() {
 		ui->SrcImgView->clear();
 		//QImage加载成功则展示
 		if (srcQimage.load(filename)) {
+			ui->actionSimilar->setEnabled(true);
+
 			int width = ui->SrcImgView->width();
 			int height = ui->SrcImgView->height();
 			QPixmap pixmap = QPixmap::fromImage(srcQimage);
@@ -55,6 +47,7 @@ void imageSimilarity::open() {
 			nowPage = 0;//当前页为0
 		}
 		else {
+			ui->actionSimilar->setEnabled(false);
 			QMessageBox::information(this,
 				tr("操作失败"),
 				tr("图片打开失败!"));
@@ -62,39 +55,58 @@ void imageSimilarity::open() {
 		}
 	}
 }
-
+void imageSimilarity::chooseImageLib() {
+	path = QFileDialog::getExistingDirectory(NULL, tr("选择图像库文件夹"), "", QFileDialog::ShowDirsOnly);
+	//qDebug() << path;
+	QDir *dir = new QDir(path);//本机E:/Item/C++/imageSimilarity/imageSimilarity/imageLib
+	QStringList filter;
+	filter << "*.jpg";
+	dir->setNameFilters(filter);
+	QList<QFileInfo> *fileInfo = new QList<QFileInfo>(dir->entryInfoList(filter));
+	imageCount = fileInfo->count();
+	pageNum = ceil(imageCount / 4.0);//总页数,向上取整
+	//qDebug() << fileInfo->count();
+	//qDebug() << pageNum;
+	nowPage = 0;//当前页为0
+}
 void imageSimilarity::similar() {
-	if (imagelibs.size() != 0) {
-		imagelibs.clear();
+	if (path.isEmpty() || path.isNull()) {//如果路径为空或者不存在
+		chooseImageLib();
 	}
-
-	imageInfo info;
-	for (int pic = 0; pic < imageCount+1;pic++) {
-		pySimilarityCore *a = new pySimilarityCore(p1);
-		string pathTemp = "imageLib/"+to_string(pic)+".jpg";
-
-		QFileInfo fileInfo(QString::fromStdString(pathTemp));
-		if (fileInfo.exists()) {
-			p2 = pathTemp;
-			qDebug() << QString::fromStdString(p2);
-
-			a->getPath2(p2);
-			info.setClassify_gray_hist(a->doSimilarity_classify_gray_hist());
-			info.setClassify_hist_with_split(a->doSimilarity_classify_hist_with_split());
-			info.setClassify_aHash(a->doSimilarity_classify_aHash());
-			info.setClassify_pHash(a->doSimilarity_classify_pHash());
-			info.setPath(p2);
-
-			imagelibs.push_back(info);
-			free(a);
+	else {
+		if (imagelibs.size() != 0) {
+			imagelibs.clear();
 		}
-		else {
-			free(a);
-			continue;
+
+		imageInfo info;
+		for (int pic = 0; pic < imageCount + 1; pic++) {
+			pySimilarityCore *a = new pySimilarityCore(p1);
+			QString pathJpg = path +"/" + QString::number(pic,10) + ".jpg";
+
+			QFileInfo fileInfo(pathJpg);
+			if (fileInfo.exists()) {
+				p2 = pathJpg.toStdString();
+				qDebug() << QString::fromStdString(p2);
+
+				a->getPath2(p2);
+				info.setClassify_gray_hist(a->doSimilarity_classify_gray_hist());
+				info.setClassify_hist_with_split(a->doSimilarity_classify_hist_with_split());
+				info.setClassify_aHash(a->doSimilarity_classify_aHash());
+				info.setClassify_pHash(a->doSimilarity_classify_pHash());
+				info.setPath(p2);
+
+				imagelibs.push_back(info);
+				free(a);
+			}
+			else {
+				free(a);
+				continue;
+			}
 		}
+		int choose = ui->comboBox->currentIndex();
+		chooseSortMethod(choose);
 	}
-	int choose = ui->comboBox->currentIndex();
-	chooseSortMethod(choose);
+	
 }
 
 void imageSimilarity::chooseSortMethod(int choose) {
