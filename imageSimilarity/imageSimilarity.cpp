@@ -1,7 +1,7 @@
 #include "imageSimilarity.h"
 #include<QDebug>
 #include<QMessageBox>
-
+#include<math.h>
 //bool sortMethod_pHash(imageInfo aaa, imageInfo bbb);
 
 imageSimilarity::imageSimilarity(QWidget *parent)
@@ -10,40 +10,32 @@ imageSimilarity::imageSimilarity(QWidget *parent)
 	ui = new Ui::imageSimilarityClass;
 	ui->setupUi(this);
 
-	connect(ui->actionOpen, &QAction::triggered, this, &imageSimilarity::open);
-	connect(ui->actionSimilar, &QAction::triggered, this, &imageSimilarity::similar);
+	QObject::connect(ui->actionOpen, &QAction::triggered, this, &imageSimilarity::open);
+	QObject::connect(ui->actionSimilar, &QAction::triggered, this, &imageSimilarity::similar);
+	QObject::connect(ui->lastPageBtn, &QPushButton::clicked , this, &imageSimilarity::showLastPage);
+	QObject::connect(ui->nextPageBtn, &QPushButton::clicked, this, &imageSimilarity::showNextPage);
 	QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseSortMethod(int)));
 
 
 
-	QString path = QFileDialog::getExistingDirectory(NULL, tr("选择文件夹"), "E:\\", QFileDialog::ShowDirsOnly);
-	qDebug() << path;
-	QDir *dir = new QDir(path);
+	//QString path = QFileDialog::getExistingDirectory(NULL, tr("选择图像库文件夹"), "E:\\", QFileDialog::ShowDirsOnly);
+	//qDebug() << path;
+	QDir *dir = new QDir("E:/Item/C++/imageSimilarity/imageSimilarity/imageLib");
 	QStringList filter;
 	filter<<"*.jpg";
 	dir->setNameFilters(filter);
 	QList<QFileInfo> *fileInfo = new QList<QFileInfo>(dir->entryInfoList(filter));
+	imageCount = fileInfo->count();
+	pageNum = ceil(imageCount/4.0);//总页数,向上取整
 	qDebug() << fileInfo->count();
+	qDebug() << pageNum;
+	nowPage = 0;//当前页为0
 }
 imageSimilarity::~imageSimilarity()
 {
 	delete ui;
 }
 void imageSimilarity::open() {
-	//QString path = QFileDialog::getExistingDirectory(NULL, tr("选择文件夹"), "E:\\", QFileDialog::ShowDirsOnly);
-	//QDir *dir = new QDir(path);
-	//QStringList filter;
-	////filter<<"*.dat";
-	////dir->setNameFilters(filter);
-	//QList<QFileInfo> *fileInfo = new QList<QFileInfo>(dir->entryInfoList(filter));
-	//qDebug() << fileInfo->count();
-
-	//for (int i = 0; i < fileInfo->count(); i++)
-	//{
-	//	qDebug() << fileInfo->at(i).fileName();
-	//}
-
-
 	//调用窗口打开文件
 	filename = QFileDialog::getOpenFileName(this,
 		tr("打开图片"),
@@ -60,6 +52,7 @@ void imageSimilarity::open() {
 			QPixmap fitpixmap = pixmap.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 			//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
 			ui->SrcImgView->setPixmap(fitpixmap);
+			nowPage = 0;//当前页为0
 		}
 		else {
 			QMessageBox::information(this,
@@ -76,7 +69,7 @@ void imageSimilarity::similar() {
 	}
 
 	imageInfo info;
-	for (int pic = 0; pic < 155;pic++) {
+	for (int pic = 0; pic < imageCount+1;pic++) {
 		pySimilarityCore *a = new pySimilarityCore(p1);
 		string pathTemp = "imageLib/"+to_string(pic)+".jpg";
 
@@ -122,6 +115,7 @@ void imageSimilarity::chooseSortMethod(int choose) {
 }
 
 void imageSimilarity::showLabel() {
+	nowPage = 0;//当前页为0
 	ui->label->clear();
 	//qDebug() << QString::fromStdString((imagelibs.begin())->getPath());
 	//qDebug() << imagelibs.size();
@@ -159,6 +153,94 @@ void imageSimilarity::showLabel() {
 	QPixmap fitpixmap4 = pixmap4.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 	//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
 	ui->label_4->setPixmap(fitpixmap4);
+}
+
+void imageSimilarity::showLastPage() {
+	if (nowPage > 0) {
+		nowPage--;
+
+		ui->label->clear();
+		//qDebug() << QString::fromStdString((imagelibs.begin())->getPath());
+		//qDebug() << imagelibs.size();
+		QString filep = QString::fromStdString((imagelibs.begin() +nowPage * 4)->getPath());
+		int width = ui->label->width();
+		int height = ui->label->height();
+		QImage image1(filep);
+		QPixmap pixmap = QPixmap::fromImage(image1);
+		QPixmap fitpixmap = pixmap.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label->setPixmap(fitpixmap);
+
+		ui->label_2->clear();
+		QString filep2 = QString::fromStdString((imagelibs.begin() + nowPage  * 4 + 1)->getPath());
+		QImage image2(filep2);
+		QPixmap pixmap2 = QPixmap::fromImage(image2);
+		QPixmap fitpixmap2 = pixmap2.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label_2->setPixmap(fitpixmap2);
+
+		ui->label_3->clear();
+		//qDebug() << QString::fromStdString((imagelibs.begin() + 2)->getPath());
+		QString filep3 = QString::fromStdString((imagelibs.begin() + nowPage  * 4 + 2)->getPath());
+		QImage image3(filep3);
+		QPixmap pixmap3 = QPixmap::fromImage(image3);
+		QPixmap fitpixmap3 = pixmap3.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label_3->setPixmap(fitpixmap3);
+
+		ui->label_4->clear();
+		//qDebug() << QString::fromStdString((imagelibs.begin() + 3)->getPath());
+		QString filep4 = QString::fromStdString((imagelibs.begin()+nowPage  * 4 + 3)->getPath());
+		QImage image4(filep4);
+		QPixmap pixmap4 = QPixmap::fromImage(image4);
+		QPixmap fitpixmap4 = pixmap4.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label_4->setPixmap(fitpixmap4);
+		
+	}
+}
+void imageSimilarity::showNextPage() {
+	if (nowPage < pageNum) {
+		nowPage++;
+		ui->label->clear();
+		//qDebug() << QString::fromStdString((imagelibs.begin())->getPath());
+		//qDebug() << imagelibs.size();
+		QString filep = QString::fromStdString((imagelibs.begin() + nowPage * 4)->getPath());
+		int width = ui->label->width();
+		int height = ui->label->height();
+		QImage image1(filep);
+		QPixmap pixmap = QPixmap::fromImage(image1);
+		QPixmap fitpixmap = pixmap.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label->setPixmap(fitpixmap);
+
+		ui->label_2->clear();
+		QString filep2 = QString::fromStdString((imagelibs.begin() + nowPage * 4 + 1)->getPath());
+		QImage image2(filep2);
+		QPixmap pixmap2 = QPixmap::fromImage(image2);
+		QPixmap fitpixmap2 = pixmap2.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label_2->setPixmap(fitpixmap2);
+
+		ui->label_3->clear();
+		//qDebug() << QString::fromStdString((imagelibs.begin() + 2)->getPath());
+		QString filep3 = QString::fromStdString((imagelibs.begin() + nowPage* 4 + 2)->getPath());
+		QImage image3(filep3);
+		QPixmap pixmap3 = QPixmap::fromImage(image3);
+		QPixmap fitpixmap3 = pixmap3.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label_3->setPixmap(fitpixmap3);
+
+		ui->label_4->clear();
+		//qDebug() << QString::fromStdString((imagelibs.begin() + 3)->getPath());
+		QString filep4 = QString::fromStdString((imagelibs.begin() + nowPage * 4 + 3)->getPath());
+		QImage image4(filep4);
+		QPixmap pixmap4 = QPixmap::fromImage(image4);
+		QPixmap fitpixmap4 = pixmap4.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+		//Qt::IgnoreAspectRatio, Qt::SmoothTransformation 填充 Qt::KeepAspectRatio, Qt::SmoothTransformation 按比例
+		ui->label_4->setPixmap(fitpixmap4);
+		
+	}
 }
 
 bool imageSimilarity::sortMethod_gray_hist(imageInfo aaa, imageInfo bbb) {

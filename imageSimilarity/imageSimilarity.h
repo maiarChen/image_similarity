@@ -33,18 +33,18 @@ private slots:
 	void similar();
 	void showLabel();
 	void chooseSortMethod(int);
+	void showLastPage();
+	void showNextPage();
 signals:
 
 private:
 	Ui::imageSimilarityClass *ui;
-	
 	QString filename;
-	/*Mat srcImage;*/	
 	QImage srcQimage;
-	
-	/*vector<imageInfo*> imagelibs;*/
 	vector<imageInfo> imagelibs;
-
+	int imageCount;//图片库总量
+	int pageNum;//页数
+	int nowPage;//当前页
 
 	string p1;
 	string p2;

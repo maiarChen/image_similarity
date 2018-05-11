@@ -55,8 +55,8 @@ public:
     QLabel *label_4;
     QHBoxLayout *horizontalLayout_2;
     QSpacerItem *horizontalSpacer;
-    QPushButton *pushButton_2;
-    QPushButton *pushButton;
+    QPushButton *lastPageBtn;
+    QPushButton *nextPageBtn;
     QSpacerItem *horizontalSpacer_2;
     QMenuBar *menuBar;
     QMenu *menu;
@@ -173,15 +173,15 @@ public:
 
         horizontalLayout_2->addItem(horizontalSpacer);
 
-        pushButton_2 = new QPushButton(centralWidget);
-        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        lastPageBtn = new QPushButton(centralWidget);
+        lastPageBtn->setObjectName(QStringLiteral("lastPageBtn"));
 
-        horizontalLayout_2->addWidget(pushButton_2);
+        horizontalLayout_2->addWidget(lastPageBtn);
 
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        nextPageBtn = new QPushButton(centralWidget);
+        nextPageBtn->setObjectName(QStringLiteral("nextPageBtn"));
 
-        horizontalLayout_2->addWidget(pushButton);
+        horizontalLayout_2->addWidget(nextPageBtn);
 
         horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
 
@@ -240,8 +240,8 @@ public:
         label_2->setText(QString());
         label_3->setText(QString());
         label_4->setText(QString());
-        pushButton_2->setText(QApplication::translate("imageSimilarityClass", "\344\270\212\344\270\200\351\241\265", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("imageSimilarityClass", "\344\270\213\344\270\200\351\241\265", Q_NULLPTR));
+        lastPageBtn->setText(QApplication::translate("imageSimilarityClass", "\344\270\212\344\270\200\351\241\265", Q_NULLPTR));
+        nextPageBtn->setText(QApplication::translate("imageSimilarityClass", "\344\270\213\344\270\200\351\241\265", Q_NULLPTR));
         menu->setTitle(QApplication::translate("imageSimilarityClass", "\346\226\207\344\273\266", Q_NULLPTR));
         menu_2->setTitle(QApplication::translate("imageSimilarityClass", "\345\212\237\350\203\275", Q_NULLPTR));
     } // retranslateUi
