@@ -36,6 +36,7 @@ private slots:
 	void showLastPage();
 	void showNextPage();
 	void chooseImageLib();
+	void showImageInfo(imageInfo);
 signals:
 
 private:
@@ -49,5 +50,4 @@ private:
 	QString path;
 
 	string p1;
-	string p2;
 };

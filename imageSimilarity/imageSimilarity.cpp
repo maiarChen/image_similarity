@@ -2,6 +2,7 @@
 #include<QDebug>
 #include<QMessageBox>
 #include<math.h>
+#include <qscrollbar.h>
 //bool sortMethod_pHash(imageInfo aaa, imageInfo bbb);
 
 imageSimilarity::imageSimilarity(QWidget *parent)
@@ -19,6 +20,7 @@ imageSimilarity::imageSimilarity(QWidget *parent)
 	QObject::connect(ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(chooseSortMethod(int)));
 
 	ui->actionSimilar->setEnabled(false);
+	ui->textEdit->setReadOnly(true);
 	nowPage = 0;//当前页为0
 }
 imageSimilarity::~imageSimilarity()
@@ -85,21 +87,21 @@ void imageSimilarity::similar() {
 
 			QFileInfo fileInfo(pathJpg);
 			if (fileInfo.exists()) {
-				p2 = pathJpg.toStdString();
-				qDebug() << QString::fromStdString(p2);
-
-				a->getPath2(p2);
+				//qDebug() << "路径:"+QString::fromStdString(p2);
+				a->getPath2(pathJpg.toStdString());
 				info.setClassify_gray_hist(a->doSimilarity_classify_gray_hist());
 				info.setClassify_hist_with_split(a->doSimilarity_classify_hist_with_split());
 				info.setClassify_aHash(a->doSimilarity_classify_aHash());
 				info.setClassify_pHash(a->doSimilarity_classify_pHash());
-				info.setPath(p2);
+				info.setPath(pathJpg.toStdString());
 
+				Py_Initialize();
 				imagelibs.push_back(info);
-				free(a);
+
+				delete a;
 			}
 			else {
-				free(a);
+				delete a;
 				continue;
 			}
 		}
@@ -128,10 +130,12 @@ void imageSimilarity::chooseSortMethod(int choose) {
 
 void imageSimilarity::showLabel() {
 	nowPage = 0;//当前页为0
+	ui->textEdit->clear();
 	ui->label->clear();
 	//qDebug() << QString::fromStdString((imagelibs.begin())->getPath());
 	//qDebug() << imagelibs.size();
 	QString filep = QString::fromStdString((imagelibs.begin())->getPath());
+	showImageInfo(*(imagelibs.begin()));
 	int width = ui->label->width();
 	int height = ui->label->height();
 	QImage image1(filep);
@@ -142,6 +146,7 @@ void imageSimilarity::showLabel() {
 
 	ui->label_2->clear();
 	QString filep2 = QString::fromStdString((imagelibs.begin() + 1)->getPath());
+	showImageInfo(*(imagelibs.begin()+1));
 	QImage image2(filep2);
 	QPixmap pixmap2 = QPixmap::fromImage(image2);
 	QPixmap fitpixmap2 = pixmap2.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -151,6 +156,7 @@ void imageSimilarity::showLabel() {
 	ui->label_3->clear();
 	//qDebug() << QString::fromStdString((imagelibs.begin() + 2)->getPath());
 	QString filep3 = QString::fromStdString((imagelibs.begin() + 2)->getPath());
+	showImageInfo(*(imagelibs.begin()+2));
 	QImage image3(filep3);
 	QPixmap pixmap3 = QPixmap::fromImage(image3);
 	QPixmap fitpixmap3 = pixmap3.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -160,6 +166,7 @@ void imageSimilarity::showLabel() {
 	ui->label_4->clear();
 	//qDebug() << QString::fromStdString((imagelibs.begin() + 3)->getPath());
 	QString filep4 = QString::fromStdString((imagelibs.begin() + 3)->getPath());
+	showImageInfo(*(imagelibs.begin() + 3));
 	QImage image4(filep4);
 	QPixmap pixmap4 = QPixmap::fromImage(image4);
 	QPixmap fitpixmap4 = pixmap4.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -170,11 +177,12 @@ void imageSimilarity::showLabel() {
 void imageSimilarity::showLastPage() {
 	if (nowPage > 0) {
 		nowPage--;
-
+		ui->textEdit->clear();
 		ui->label->clear();
 		//qDebug() << QString::fromStdString((imagelibs.begin())->getPath());
 		//qDebug() << imagelibs.size();
 		QString filep = QString::fromStdString((imagelibs.begin() +nowPage * 4)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4));
 		int width = ui->label->width();
 		int height = ui->label->height();
 		QImage image1(filep);
@@ -185,6 +193,7 @@ void imageSimilarity::showLastPage() {
 
 		ui->label_2->clear();
 		QString filep2 = QString::fromStdString((imagelibs.begin() + nowPage  * 4 + 1)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4+1));
 		QImage image2(filep2);
 		QPixmap pixmap2 = QPixmap::fromImage(image2);
 		QPixmap fitpixmap2 = pixmap2.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -194,6 +203,7 @@ void imageSimilarity::showLastPage() {
 		ui->label_3->clear();
 		//qDebug() << QString::fromStdString((imagelibs.begin() + 2)->getPath());
 		QString filep3 = QString::fromStdString((imagelibs.begin() + nowPage  * 4 + 2)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4+2));
 		QImage image3(filep3);
 		QPixmap pixmap3 = QPixmap::fromImage(image3);
 		QPixmap fitpixmap3 = pixmap3.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -203,6 +213,7 @@ void imageSimilarity::showLastPage() {
 		ui->label_4->clear();
 		//qDebug() << QString::fromStdString((imagelibs.begin() + 3)->getPath());
 		QString filep4 = QString::fromStdString((imagelibs.begin()+nowPage  * 4 + 3)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4+3));
 		QImage image4(filep4);
 		QPixmap pixmap4 = QPixmap::fromImage(image4);
 		QPixmap fitpixmap4 = pixmap4.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -211,13 +222,17 @@ void imageSimilarity::showLastPage() {
 		
 	}
 }
+
+
 void imageSimilarity::showNextPage() {
 	if (nowPage < pageNum) {
 		nowPage++;
+		ui->textEdit->clear();
 		ui->label->clear();
 		//qDebug() << QString::fromStdString((imagelibs.begin())->getPath());
 		//qDebug() << imagelibs.size();
 		QString filep = QString::fromStdString((imagelibs.begin() + nowPage * 4)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4));
 		int width = ui->label->width();
 		int height = ui->label->height();
 		QImage image1(filep);
@@ -228,6 +243,7 @@ void imageSimilarity::showNextPage() {
 
 		ui->label_2->clear();
 		QString filep2 = QString::fromStdString((imagelibs.begin() + nowPage * 4 + 1)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4+1));
 		QImage image2(filep2);
 		QPixmap pixmap2 = QPixmap::fromImage(image2);
 		QPixmap fitpixmap2 = pixmap2.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -237,6 +253,7 @@ void imageSimilarity::showNextPage() {
 		ui->label_3->clear();
 		//qDebug() << QString::fromStdString((imagelibs.begin() + 2)->getPath());
 		QString filep3 = QString::fromStdString((imagelibs.begin() + nowPage* 4 + 2)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4 +2));
 		QImage image3(filep3);
 		QPixmap pixmap3 = QPixmap::fromImage(image3);
 		QPixmap fitpixmap3 = pixmap3.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -246,6 +263,7 @@ void imageSimilarity::showNextPage() {
 		ui->label_4->clear();
 		//qDebug() << QString::fromStdString((imagelibs.begin() + 3)->getPath());
 		QString filep4 = QString::fromStdString((imagelibs.begin() + nowPage * 4 + 3)->getPath());
+		showImageInfo(*(imagelibs.begin() + nowPage * 4+3));
 		QImage image4(filep4);
 		QPixmap pixmap4 = QPixmap::fromImage(image4);
 		QPixmap fitpixmap4 = pixmap4.scaled(width, height, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -253,6 +271,20 @@ void imageSimilarity::showNextPage() {
 		ui->label_4->setPixmap(fitpixmap4);
 		
 	}
+}
+
+void imageSimilarity::showImageInfo(imageInfo img) {
+	
+	//QScrollBar *scrollbar = ui->textEdit->verticalScrollBar();
+	//if (scrollbar) {
+	//	scrollbar->setSliderPosition(scrollbar->maximum());
+	//}
+	ui->textEdit->insertPlainText("图片2路径:" + QString::fromStdString(img.getPath()) + "\n");
+	ui->textEdit->insertPlainText("灰度直方图比较:" + QString::number(img.getClassify_gray_hist(), 'f') + "\n");
+	ui->textEdit->insertPlainText("三通道分离比较:" + QString::number(img.getClassify_hist_with_split(), 'f') + "\n");
+	ui->textEdit->insertPlainText("aHash:" + QString::number(img.getClassify_aHash(), 10) + "\n");
+	ui->textEdit->insertPlainText("pHash:" + QString::number(img.getClassify_pHash(), 10) + "\n\n");
+	QApplication::processEvents();
 }
 
 bool imageSimilarity::sortMethod_gray_hist(imageInfo aaa, imageInfo bbb) {
