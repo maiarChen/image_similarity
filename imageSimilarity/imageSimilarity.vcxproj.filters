@@ -39,9 +39,6 @@
     <ClCompile Include="pySimilarityCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Image_processing\mainwindow\Mat2QImage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="imageInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -63,9 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pySimilarityCore.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Image_processing\mainwindow\Mat2QImage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imageInfo.h">
