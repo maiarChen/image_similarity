@@ -20,6 +20,7 @@ pySimilarityCore::pySimilarityCore(string Path1) {
 	qDebug() << "[INFO] Python get module succeed." ;
 }
 pySimilarityCore::~pySimilarityCore() {
+	//delete pModule;
 	//Py_Finalize();
 }
 
